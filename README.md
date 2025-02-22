@@ -1,87 +1,48 @@
-# Formulário de Cadastro
+# MovieApp - Pesquisa de Filmes com TMDB
 
-Este projeto implementa um formulário de cadastro com múltiplas seções e validações em tempo real. O formulário é dividido em três seções principais, e a validação dos campos é feita conforme o usuário preenche os dados, com feedback visual para erros.
+## Descrição
 
-## 1. Estrutura do Formulário
+O MovieApp é um aplicativo mobile desenvolvido em React Native que permite ao usuário pesquisar filmes utilizando a API do The Movie Database (TMDB). O app oferece uma interface intuitiva para busca, exibe uma lista dos filmes encontrados e possibilita visualizar detalhes de um filme selecionado, como sinopse, data de lançamento e avaliação.
 
-### Informações Pessoais
-- **Nome Completo**: Campo obrigatório. Deve conter pelo menos dois nomes (nome e sobrenome).
-- **Data de Nascimento**: Campo obrigatório. Deve ser inserido no formato **DD/MM/AAAA**.
-- **CPF**: Campo obrigatório. Deve seguir o formato **XXX.XXX.XXX-XX** ou apenas números (11 dígitos). A validação do CPF é realizada utilizando o algoritmo de verificação dos dígitos verificadores.
-- **Telefone Fixo**: Campo obrigatório. O número deve incluir o **DDD** e seguir o formato **(XX) XXXX-XXXX**. A validação verifica se o número possui 10 dígitos.
-- **Celular**: Campo obrigatório. O número deve incluir o **DDD** e o nono dígito, seguindo o formato **(XX) 9XXXX-XXXX**. A validação verifica se o número possui 11 dígitos.
+## Funcionalidades
 
-### Informações Complementares (para menores de idade)
-- Se a idade do usuário for inferior a 18 anos, os seguintes campos se tornam obrigatórios:
-  - **Nome do Pai**: Campo obrigatório para menores de 18 anos.
-  - **Nome da Mãe**: Campo obrigatório para menores de 18 anos.
+- **Cadastro e Configuração da API:**
+  - Crie uma conta na [TMDB](https://www.themoviedb.org/) e obtenha sua chave de API.
+  - Armazene a chave de forma segura (ex.: variáveis de ambiente).
 
-### Endereço
-- **CEP**: Campo obrigatório. Deve seguir o formato **XXXXX-XXX** ou conter exatamente 8 dígitos numéricos. A validação verifica a formatação do CEP.
-- **Endereço**: Campo obrigatório.
-- **Número**: Campo obrigatório.
-- **Complemento**: Opcional.
-- **Cidade**: Campo obrigatório.
-- **Estado**: Campo obrigatório.
+- **Tela de Busca:**
+  - Interface com um campo de texto para o usuário digitar o nome do filme.
+  - Botão que inicia a busca na API do TMDB utilizando o texto informado.
 
-### Informações da Conta
-- **Email**: Campo obrigatório. O email deve ser validado para garantir que o formato seja válido (ex: usuario@dominio.com).
-- **Senha**: Campo obrigatório. Deve ter no mínimo 8 caracteres e pode conter letras maiúsculas, minúsculas, números e caracteres especiais. Feedback visual é fornecido se a senha não atender aos critérios de segurança.
-- **Confirmar Senha**: Campo obrigatório. Deve ser idêntico ao campo de senha.
+- **Requisição à API TMDB:**
+  - Utiliza o endpoint `/search/movie` para realizar a busca.
+  - Exemplo de URL:
+    ```
+    https://api.themoviedb.org/3/search/movie?api_key=SUA_API_KEY&query=nomeDoFilme
+    ```
+  - Requisição realizada com `fetch` (ou bibliotecas como `axios`).
 
-## 2. Requisitos de Validação
+- **Exibição dos Resultados:**
+  - Mostra os filmes retornados em uma lista, exibindo informações como título, data de lançamento e uma breve sinopse.
+  - Utiliza componentes como `FlatList` para renderização otimizada.
 
-### Nome Completo
-- Não pode ser vazio.
-- Deve conter pelo menos dois nomes (nome e sobrenome).
+- **Tela de Detalhes do Filme:**
+  - Ao selecionar um filme, exibe uma tela com informações adicionais (descrição completa, avaliação, poster, etc.).
+  - Utiliza o endpoint `/movie/{movie_id}` para obter os detalhes específicos do filme.
 
-### Data de Nascimento
-- Deve ser inserida no formato **DD/MM/AAAA** ou outro padrão coerente.
-- Deve ser validada para garantir que seja uma data válida.
-- A idade é calculada com base na data informada.
-- Se a idade for menor que 18 anos, os campos **Nome do Pai** e **Nome da Mãe** se tornam obrigatórios.
+- **Feedback Visual e Tratamento de Erros:**
+  - Indicador de carregamento enquanto os dados são buscados.
+  - Mensagens de erro apropriadas caso a busca não retorne resultados ou haja falha na requisição.
 
-### CPF
-- Deve seguir o formato **XXX.XXX.XXX-XX** ou apenas números (11 dígitos).
-- Implementação da validação do CPF utilizando o algoritmo de verificação dos dígitos verificadores.
+- **Boas Práticas:**
+  - Uso de componentes funcionais e hooks (`useState`, `useEffect`) para gerenciamento de estado e efeitos colaterais.
+  - Código modularizado, separando a lógica de requisição da apresentação dos dados.
+  - Possibilidade de implementar paginação ou carregamento incremental se necessário.
 
-### Telefone Fixo
-- Deve incluir o **DDD** e o número no formato **(XX) XXXX-XXXX**.
-- O número deve ter 10 dígitos, incluindo o DDD.
-- A validação garante que o formato esteja correto.
+## Instalação e Configuração
 
-### Celular
-- Deve incluir o **DDD** e o número, com o nono dígito obrigatório, no formato **(XX) 9XXXX-XXXX**.
-- O número deve ter 11 dígitos, incluindo o DDD.
-- A validação garante que o formato esteja correto.
+1. **Clone o repositório:**
 
-### CEP
-- Deve seguir o padrão **XXXXX-XXX** ou conter exatamente 8 dígitos numéricos.
-- Validação da formatação do CEP.
-
-### Email
-- A validação garante que o formato do email seja válido (ex: usuario@dominio.com).
-
-### Senha
-- A senha deve ter no mínimo 8 caracteres.
-- Preferencialmente, deve conter letras maiúsculas, minúsculas, números e caracteres especiais.
-- Feedback visual é fornecido caso a senha não atenda aos critérios de segurança.
-
-### Confirmar Senha
-- Deve ser idêntico ao campo de senha.
-
-### Campos para Menores de Idade
-- Se a data de nascimento indicar que o usuário tem menos de 18 anos, os campos **Nome do Pai** e **Nome da Mãe** se tornam obrigatórios.
-
-## 3. Tecnologias Utilizadas
-- **React** (ou outro framework JS)
-- **React Hook Form** (ou outra biblioteca para manipulação de formulários)
-- **Yup** ou outra biblioteca de validação para JavaScript
-- **CSS** (ou styled-components) para os estilos e feedback visual
-
-## 4. Instalação e Execução
-
-1. Clone este repositório:
    ```bash
-   git clone https://github.com/seuusuario/seurepositorio.git
-# consulta_exibe_filme
+   git clone https://github.com/seu-usuario/MovieApp.git
+   cd MovieApp
