@@ -84,3 +84,4 @@ Este projeto implementa um formulário de cadastro com múltiplas seções e val
 1. Clone este repositório:
    ```bash
    git clone https://github.com/seuusuario/seurepositorio.git
+# consulta_exibe_filme
